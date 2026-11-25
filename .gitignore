@@ -11,3 +11,6 @@ __pycache__/
 # Frontend dependencies
 node_modules/
 dist/
+
+resume_analyzer/test_resumes/
+
