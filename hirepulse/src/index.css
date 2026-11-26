@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --canvas: 248 249 252;
+    --surface: 255 255 255;
+    --subtle: 241 243 249;
+    --line: 228 231 239;
+    --ink: 15 23 42;
+    --muted: 100 116 139;
+    color-scheme: light;
+  }
+
+  .dark {
+    --canvas: 11 13 20;
+    --surface: 19 22 32;
+    --subtle: 28 32 45;
+    --line: 39 44 60;
+    --ink: 236 238 245;
+    --muted: 148 156 178;
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-soft;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50
+      disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-brand-600 text-white shadow-sm shadow-brand-600/20 hover:bg-brand-700;
+  }
+
+  .btn-secondary {
+    @apply border border-line bg-surface text-ink hover:bg-subtle;
+  }
+
+  .btn-ghost {
+    @apply text-muted hover:bg-subtle hover:text-ink;
+  }
+
+  .btn-danger {
+    @apply bg-rose-600 text-white hover:bg-rose-700;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink transition
+      placeholder:text-muted/70 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10;
+  }
+
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-ink;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  .card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}

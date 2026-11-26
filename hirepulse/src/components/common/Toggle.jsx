@@ -1,0 +1,24 @@
+export default function Toggle({ id, checked, onChange, label, description }) {
+  return (
+    <div className="flex items-start justify-between gap-4 py-4">
+      <div>
+        <label htmlFor={id} className="text-sm font-medium">
+          {label}
+        </label>
+        {description && <p className="mt-0.5 text-sm text-muted">{description}</p>}
+      </div>
+      <button
+        id={id}
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        onClick={() => onChange(!checked)}
+        className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition ${checked ? 'bg-brand-600' : 'bg-line'}`}
+      >
+        <span
+          className={`inline-block h-5 w-5 rounded-full bg-white shadow transition ${checked ? 'translate-x-5' : 'translate-x-0.5'}`}
+        />
+      </button>
+    </div>
+  );
+}
