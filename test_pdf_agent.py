@@ -2,46 +2,38 @@
 import asyncio
 from pathlib import Path
 
-from pydantic_ai import UploadedFile
-from pydantic_ai.models.google import GoogleModel
-from pydantic_ai.providers.google import GoogleProvider
+from pydantic_ai import BinaryContent
 
 from resume_analyzer.agents.resume_agent import resume_agent
 
 
 async def main():
     pdf_path = Path(
-        "resume_analyzer/test_resumes/Software_Engineer_Sample_Resume.pdf"
+        "resume_analyzer/test_resumes/KanishkaAgarwal_CSE_GLAU.pdf"
     )
 
+    # Check whether the PDF exists
     if not pdf_path.exists():
         raise FileNotFoundError(f"Resume PDF not found: {pdf_path}")
 
-    print("Uploading PDF to Google...")
+    print("Reading resume PDF...")
 
-    provider = GoogleProvider()
-    model = GoogleModel("gemini-4-argon", provider=provider)
+    # Read PDF as binary data
+    pdf_bytes = pdf_path.read_bytes()
 
-    with pdf_path.open("rb") as pdf:
-        uploaded_file = await provider.client.aio.files.upload(
-            file=pdf,
-            config={
-                "mime_type": "application/pdf"
-            }
-        )
+    print("Sending PDF to OpenRouter Resume Agent...")
 
-    print("PDF uploaded successfully!")
-    print("Sending PDF to Resume Extraction Agent...")
-
-    result = await resume_agent.run([
-        "Read this PDF resume and extract all candidate information. "
-        "Return the extracted information using the CandidateProfile schema.",
-        UploadedFile(
-            file_id=uploaded_file.uri,
-            media_type="application/pdf",
-            provider_name=model.system
-        )
-    ])
+    result = await resume_agent.run(
+        [
+            "Read this resume PDF carefully and extract all candidate "
+            "information. Return the extracted information using the "
+            "CandidateProfile schema.",
+            BinaryContent(
+                data=pdf_bytes,
+                media_type="application/pdf"
+            )
+        ]
+    )
 
     print("\nExtracted Candidate Profile:\n")
     print(result.output.model_dump_json(indent=2))
