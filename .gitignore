@@ -1,0 +1,19 @@
+# Environment variables (API keys)
+.env
+
+# Python virtual environment
+venv/
+.venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# IDE settings
+.vscode/
+
+# Log files
+*.log
+
+# Testing cache
+.pytest_cache/
